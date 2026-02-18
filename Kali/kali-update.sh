@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/env bash
 
 # --- Production Safety ---
 # Set production safeties in place.
