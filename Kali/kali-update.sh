@@ -14,7 +14,7 @@ echo "Initiate Update of Kali Linux"
 # Check if the script is being run with root privilges.
 # If not, then print an error message and exit the script with a non-zero status code.
 if [[ $EUID -ne 0 ]]; then
-    echo "[!] Please run this script with sudo or as root."
+    echo "Please run this script with sudo or as root."
     exit 1
 fi
 
