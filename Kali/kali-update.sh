@@ -64,5 +64,33 @@ sudo -E apt-get -y autoclean
 # Communicate completion of update process
 echo "Kali Linux Update Completed"
 
+# --- Reboot detection (Debian/Kali style) ---
+reboot_needed=false
+
+if [[ -f /var/run/reboot-required ]]; then
+  reboot_needed=true
+fi
+
+if $reboot_needed; then
+  echo "[!] Reboot required to fully apply updates."
+
+  # Show what triggered it (if available)
+  if [[ -f /var/run/reboot-required.pkgs ]]; then
+    echo "[*] Packages requiring reboot:"
+    sed 's/^/    - /' /var/run/reboot-required.pkgs || true
+  fi
+
+  # Auto-reboot only if explicitly enabled
+  if [[ "${AUTO_REBOOT:-0}" == "1" ]]; then
+    echo "[*] AUTO_REBOOT=1 set. Rebooting in 10 seconds..."
+    sleep 10
+    reboot
+  else
+    echo "[*] To reboot now: sudo reboot"
+  fi
+else
+  echo "[*] No reboot required."
+fi
+
 # Gracefully exit the script.
 exit 0
